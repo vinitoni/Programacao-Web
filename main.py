@@ -56,11 +56,13 @@ def create_user():
 
 
 # Obter todos os usuários (READ)
+# Obter todos os usuários (READ)
 @app.route('/usuarios', methods=['GET'])
 def get_users():
     db = get_db()
     users = db.execute('SELECT * FROM usuarios').fetchall()
-    return jsonify([dict(user) for user in users])
+    return render_template('usuarios.html', users=users)
+
 
 
 # Atualizar um usuário (UPDATE)
@@ -122,7 +124,8 @@ def login():
 
 @app.route('/')
 def home():
-    return "<h1>Bem-vindo ao Sistema de Gestão de Usuários</h1>"
+    return render_template('home.html')
+
 
 
 @app.route('/register', methods=['GET', 'POST'])
