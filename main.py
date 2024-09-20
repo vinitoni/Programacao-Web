@@ -89,6 +89,7 @@ def block_user(id):
 
 
 # Tela de Login
+# Tela de Login
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -102,12 +103,21 @@ def login():
             if user['status'] == 'bloqueado':
                 flash('Seu usuário está bloqueado!')
                 return redirect(url_for('login'))
+
+            # Atualizar a data_ultima_atualizacao no login bem-sucedido
+            db.execute(
+                'UPDATE usuarios SET data_ultima_atualizacao = ? WHERE id = ?',
+                (datetime.now(), user['id'])
+            )
+            db.commit()
+
             flash('Login bem-sucedido!')
             return redirect(url_for('home'))
         else:
             flash('Login ou senha incorretos!')
             return redirect(url_for('login'))
     return render_template('login.html')
+
 
 
 @app.route('/')

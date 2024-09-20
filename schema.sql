@@ -7,3 +7,4 @@ CREATE TABLE IF NOT EXISTS usuarios (
     status TEXT CHECK( status IN ('ativo','bloqueado') ) NOT NULL DEFAULT 'ativo',
     data_ultima_atualizacao TEXT  -- Pode ser nulo na criação, preenchido em atualizações
 );
+UPDATE usuarios SET data_ultima_atualizacao = ? WHERE id = ?
