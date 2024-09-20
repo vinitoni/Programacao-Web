@@ -3,18 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bem-vindo</title>
+    <title>Bloquear Usuário</title>
     <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
 </head>
 <body>
     <div class="container mt-5">
-        <h1 class="mb-4">Bem-vindo ao Sistema de Gestão de Usuários</h1>
-        <p class="lead">Use o menu abaixo para navegar:</p>
-        <div class="btn-group" role="group" aria-label="Basic example">
-            <a href="{{ url_for('login') }}" class="btn btn-primary">Login</a>
-            <a href="{{ url_for('register') }}" class="btn btn-success">Registrar Usuário</a>
-            <a href="{{ url_for('get_users') }}" class="btn btn-info">Lista de Usuários</a>
-        </div>
+        <h1 class="mb-4">Bloquear Usuário</h1>
+        <p>Você tem certeza que deseja bloquear o usuário <strong>{{ user.nome }}</strong>?</p>
+        <form action="{{ url_for('block_user', id=user.id) }}" method="POST">
+            <button type="submit" class="btn btn-danger">Bloquear Usuário</button>
+            <a href="{{ url_for('get_users') }}" class="btn btn-secondary">Cancelar</a>
+        </form>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

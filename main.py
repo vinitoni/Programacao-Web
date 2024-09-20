@@ -85,9 +85,15 @@ def update_user(id):
 @app.route('/usuarios/<int:id>/bloquear', methods=['POST'])
 def block_user(id):
     db = get_db()
-    db.execute('UPDATE usuarios SET status = ? WHERE id = ?', ('bloqueado', id))
-    db.commit()
-    return jsonify({'message': 'Usuário bloqueado com sucesso!'}), 200
+    user = db.execute('SELECT * FROM usuarios WHERE id = ?', (id,)).fetchone()
+
+    if user:
+        db.execute('UPDATE usuarios SET status = ? WHERE id = ?', ('bloqueado', id))
+        db.commit()
+        return render_template('bloquear_usuario.html', user=user)
+    else:
+        flash('Usuário não encontrado.')
+        return redirect(url_for('get_users'))
 
 
 # Tela de Login
