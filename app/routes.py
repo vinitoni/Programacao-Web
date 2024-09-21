@@ -3,6 +3,13 @@ from app.models import Usuario  # Certifique-se de que isso está correto
 from flask import request, render_template, redirect, url_for
 import re
 
+@app.route('/')
+def home():
+    return render_template('dashboard.html')
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
 @app.route('/initdb', methods=['GET'])
 def initdb():
     db.create_all()
@@ -36,7 +43,7 @@ def login():
     if request.method == 'POST':
         login = request.form['login']
         password = request.form['password']
-        user = User.query.filter_by(login=login).first()
+        user = Usuario.query.filter_by(login=login).first()
         if user and bcrypt.check_password_hash(user.password, password):
             if user.status == 'ativo':
                 return redirect(url_for('dashboard'))
@@ -51,5 +58,5 @@ def dashboard():
 
 @app.route('/manage_users')
 def manage_users():
-    users = User.query.all()
-    return render_template('manage_users.html', users=users)
+    users = Usuario.query.all()
+    return render_template('manage_users.html')

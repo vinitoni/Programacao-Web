@@ -27,6 +27,7 @@ body {
 /* Cabeçalhos */
 h1, h2, h3 {
     color: #444;
+    margin-bottom: 15px;
 }
 
 /* Formulários */
@@ -35,19 +36,23 @@ form {
     flex-direction: column;
 }
 
-label {
+.label {
     margin-bottom: 5px;
     font-weight: bold;
+}
+
+.input-group {
+    margin-bottom: 15px;
 }
 
 input[type="email"],
 input[type="password"],
 input[type="text"],
 button {
-    margin-bottom: 15px;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
+    width: 100%; /* Garantir que os inputs ocupem 100% da largura */
 }
 
 button {
@@ -59,6 +64,20 @@ button {
 
 button:hover {
     background-color: #004494;
+}
+
+/* Links */
+p {
+    text-align: center;
+}
+
+a {
+    color: #0056b3;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
 }
 
 /* Tabela */
