@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Usuários</title>
+    <!-- Bootstrap CSS local -->
     <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
 </head>
 <body>
@@ -17,6 +18,8 @@
                     <th>Nome</th>
                     <th>Status</th>
                     <th>Data de Criação</th>
+                    <th>Última Alteração</th> <!-- Coluna Última Alteração -->
+                    <th>Senha (Hash)</th> <!-- Coluna Senha (Hash) -->
                     <th>Ações</th>
                 </tr>
             </thead>
@@ -28,10 +31,20 @@
                     <td>{{ user.nome }}</td>
                     <td>{{ user.status }}</td>
                     <td>{{ user.data_criacao }}</td>
+                    <td>{{ user.data_ultima_atualizacao }}</td> <!-- Exibe Última Alteração -->
+                    <td>{{ user.senha }}</td> <!-- Exibe Senha como Hash -->
                     <td>
+                        {% if user.status == 'ativo' %}
+                        <!-- Mostrar botão "Bloquear" se o usuário estiver ativo -->
                         <form action="{{ url_for('block_user', id=user.id) }}" method="POST" style="display:inline;">
                             <button type="submit" class="btn btn-danger btn-sm">Bloquear</button>
                         </form>
+                        {% elif user.status == 'bloqueado' %}
+                        <!-- Mostrar botão "Ativar" se o usuário estiver bloqueado -->
+                        <form action="{{ url_for('activate_user', id=user.id) }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-success btn-sm">Ativar</button>
+                        </form>
+                        {% endif %}
                     </td>
                 </tr>
                 {% endfor %}
@@ -40,6 +53,7 @@
         <a href="{{ url_for('home') }}" class="btn btn-secondary">Voltar</a>
     </div>
 
+    <!-- Script do jQuery e Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

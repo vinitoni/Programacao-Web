@@ -29,7 +29,7 @@ def initialize_database():
     return 'Banco de dados inicializado'
 
 
-# Criar novo usuário (CREATE)
+# Criar novo usuário
 @app.route('/usuarios', methods=['POST'])
 def create_user():
     data = request.json
@@ -54,8 +54,6 @@ def create_user():
     finally:
         db.close()
 
-
-# Obter todos os usuários (READ)
 # Obter todos os usuários (READ)
 @app.route('/usuarios', methods=['GET'])
 def get_users():
@@ -65,7 +63,7 @@ def get_users():
 
 
 
-# Atualizar um usuário (UPDATE)
+# Atualizar um usuário
 @app.route('/usuarios/<int:id>', methods=['PUT'])
 def update_user(id):
     data = request.json
@@ -80,23 +78,28 @@ def update_user(id):
     db.commit()
     return jsonify({'message': 'Usuário atualizado com sucesso!'}), 200
 
-
-# Bloquear usuário (DELETE equivalente)
+# Bloquear usuário
 @app.route('/usuarios/<int:id>/bloquear', methods=['POST'])
 def block_user(id):
     db = get_db()
+    db.execute('UPDATE usuarios SET status = ? WHERE id = ?', ('bloqueado', id))
+    db.commit()
+
     user = db.execute('SELECT * FROM usuarios WHERE id = ?', (id,)).fetchone()
 
-    if user:
-        db.execute('UPDATE usuarios SET status = ? WHERE id = ?', ('bloqueado', id))
-        db.commit()
-        return render_template('bloquear_usuario.html', user=user)
-    else:
-        flash('Usuário não encontrado.')
-        return redirect(url_for('get_users'))
+    return render_template('bloquear_usuario.html', user=user)
 
+# Rota para ativar usuário
+@app.route('/usuarios/<int:id>/ativar', methods=['POST'])
+def activate_user(id):
+    db = get_db()
+    db.execute('UPDATE usuarios SET status = ? WHERE id = ?', ('ativo', id))
+    db.commit()
 
-# Tela de Login
+    user = db.execute('SELECT * FROM usuarios WHERE id = ?', (id,)).fetchone()
+
+    return render_template('ativar_usuario.html', user=user)
+
 # Tela de Login
 @app.route('/login', methods=['GET', 'POST'])
 def login():
