@@ -4,13 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Usuários</title>
-    <!-- Bootstrap CSS local -->
     <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
+    <style>
+        body {
+            background-color: #2C2F33;
+            color: #FFFFFF;
+        }
+        h1 {
+            color: #FFFFFF;
+        }
+        table {
+            background-color: #23272A;
+            color: #FFFFFF;
+            table-layout: fixed;
+        }
+        th, td {
+            color: #FFFFFF;
+            vertical-align: middle;
+            word-wrap: break-word;
+        }
+        td {
+            white-space: normal;
+        }
+        .col-senha {
+            width: 200px;
+        }
+        .col-acoes {
+            width: 100px;
+        }
+        .btn {
+            margin: 0 5px;
+        }
+    </style>
 </head>
 <body>
     <div class="container mt-5">
         <h1 class="mb-4">Lista de Usuários</h1>
-        <table class="table table-striped">
+        <table class="table table-striped table-dark table-bordered">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -18,9 +48,9 @@
                     <th>Nome</th>
                     <th>Status</th>
                     <th>Data de Criação</th>
-                    <th>Última Alteração</th> <!-- Coluna Última Alteração -->
-                    <th>Senha (Hash)</th> <!-- Coluna Senha (Hash) -->
-                    <th>Ações</th>
+                    <th>Última Alteração</th>
+                    <th class="col-senha">Senha (Hash)</th>
+                    <th class="col-acoes">Ações</th>
                 </tr>
             </thead>
             <tbody>
@@ -31,16 +61,14 @@
                     <td>{{ user.nome }}</td>
                     <td>{{ user.status }}</td>
                     <td>{{ user.data_criacao }}</td>
-                    <td>{{ user.data_ultima_atualizacao }}</td> <!-- Exibe Última Alteração -->
-                    <td>{{ user.senha }}</td> <!-- Exibe Senha como Hash -->
-                    <td>
+                    <td>{{ user.data_ultima_atualizacao }}</td>
+                    <td class="col-senha">{{ user.senha }}</td>
+                    <td class="col-acoes">
                         {% if user.status == 'ativo' %}
-                        <!-- Mostrar botão "Bloquear" se o usuário estiver ativo -->
                         <form action="{{ url_for('block_user', id=user.id) }}" method="POST" style="display:inline;">
                             <button type="submit" class="btn btn-danger btn-sm">Bloquear</button>
                         </form>
                         {% elif user.status == 'bloqueado' %}
-                        <!-- Mostrar botão "Ativar" se o usuário estiver bloqueado -->
                         <form action="{{ url_for('activate_user', id=user.id) }}" method="POST" style="display:inline;">
                             <button type="submit" class="btn btn-success btn-sm">Ativar</button>
                         </form>
