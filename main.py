@@ -172,8 +172,12 @@ def edit_user_form(id):
 
 @app.route('/usuarios/<int:id>/editar', methods=['POST'])
 def edit_user(id):
-    nome = request.form['nome']
-    status = request.form['status']
+    nome = request.form.get('nome')
+    status = request.form.get('status')  # Usando get para evitar KeyError
+
+    if not nome or not status:
+        flash('Nome e status são obrigatórios!')
+        return redirect(url_for('edit_user_form', id=id))
 
     db = get_db()
     db.execute(
@@ -184,6 +188,8 @@ def edit_user(id):
 
     flash('Usuário atualizado com sucesso!')
     return redirect(url_for('get_users'))
+
+
 
 
 if __name__ == '__main__':
