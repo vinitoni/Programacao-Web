@@ -7,4 +7,5 @@
 -Login: Acesse http://127.0.0.1:5000/login para fazer login.
 -Listar usuários: Acesse http://127.0.0.1:5000/usuarios para visualizar todos os usuários.
 -Bloquear ou ativar usuário: Na lista de usuários, clique em "Bloquear" ou "Ativar" para alterar o status do usuário.
+-Editar usuários ou mudar status de ativo ou bloqueado: Acesse http://127.0.0.1:5000/usuarios/1/editar dependendo do id do usuário alterar esse 1 pois cada usuário ira mudar de id ou para editar acessar a lista de usuários e escolher o usuário que prefirir e clicar em editar.
                                 
