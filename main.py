@@ -29,7 +29,6 @@ def initialize_database():
     return 'Banco de dados inicializado'
 
 
-# Criar novo usuário
 @app.route('/usuarios', methods=['POST'])
 def create_user():
     data = request.json
@@ -37,7 +36,6 @@ def create_user():
     senha = generate_password_hash(data.get('senha'))  # Encriptação da senha
     nome = data.get('nome')
 
-    # Verificar se o login é um e-mail válido
     if '@' not in login:
         return jsonify({'message': 'O login deve ser um e-mail válido'}), 400
 
@@ -54,16 +52,12 @@ def create_user():
     finally:
         db.close()
 
-# Obter todos os usuários (READ)
 @app.route('/usuarios', methods=['GET'])
 def get_users():
     db = get_db()
     users = db.execute('SELECT * FROM usuarios').fetchall()
     return render_template('usuarios.html', users=users)
 
-
-
-# Atualizar um usuário
 @app.route('/usuarios/<int:id>', methods=['PUT'])
 def update_user(id):
     data = request.json
@@ -78,7 +72,6 @@ def update_user(id):
     db.commit()
     return jsonify({'message': 'Usuário atualizado com sucesso!'}), 200
 
-# Bloquear usuário
 @app.route('/usuarios/<int:id>/bloquear', methods=['POST'])
 def block_user(id):
     db = get_db()
@@ -89,7 +82,6 @@ def block_user(id):
 
     return render_template('bloquear_usuario.html', user=user)
 
-# Rota para ativar usuário
 @app.route('/usuarios/<int:id>/ativar', methods=['POST'])
 def activate_user(id):
     db = get_db()
@@ -100,7 +92,6 @@ def activate_user(id):
 
     return render_template('ativar_usuario.html', user=user)
 
-# Tela de Login
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -115,7 +106,6 @@ def login():
                 flash('Seu usuário está bloqueado!')
                 return redirect(url_for('login'))
 
-            # Atualizar a data_ultima_atualizacao no login bem-sucedido
             db.execute(
                 'UPDATE usuarios SET data_ultima_atualizacao = ? WHERE id = ?',
                 (datetime.now(), user['id'])
@@ -140,7 +130,6 @@ def home():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        # Receber dados do formulário
         login = request.form['login']
         senha = request.form['senha']
         nome = request.form['nome']
@@ -150,7 +139,7 @@ def register():
             flash('O login deve ser um e-mail válido')
             return redirect(url_for('register'))
 
-        # Encriptar a senha usando hash seguro (bcrypt ou werkzeug.security)
+        # Encriptar a senha usando hash seguro (
         senha_encriptada = generate_password_hash(senha)
 
         db = get_db()
