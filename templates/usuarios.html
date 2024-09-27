@@ -9,37 +9,86 @@
         body {
             background-color: #2C2F33;
             color: #FFFFFF;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex; /* Flexbox para centralizar */
+            justify-content: center; /* Centralizar horizontalmente */
+            align-items: center; /* Centralizar verticalmente */
+            height: 100vh; /* Ocupa a altura total da viewport */
         }
         h1 {
             color: #FFFFFF;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .container {
+            max-width: 800px; /* Limitar a largura da tabela */
+            width: 100%; /* Garantir que a tabela ocupe 100% da largura do container */
+            display: flex; /* Flexbox para centralizar o conteúdo interno */
+            flex-direction: column; /* Organiza os elementos em coluna */
+            align-items: center; /* Centraliza os itens horizontalmente */
         }
         table {
             background-color: #23272A;
-            color: #FFFFFF;
-            table-layout: fixed;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            width: 100%; /* Garantir que a tabela ocupe 100% da largura do container */
         }
         th, td {
             color: #FFFFFF;
             vertical-align: middle;
-            word-wrap: break-word;
+            padding: 10px 5px; /* Reduzir padding para uma tabela mais compacta */
+            text-align: center;
+            border: none; /* Remover bordas para um visual mais limpo */
+        }
+        th {
+            background-color: #3D4148; /* Cor de fundo das cabeçalhos */
         }
         td {
-            white-space: normal;
+            white-space: nowrap; /* Evitar quebra de linha */
+            overflow: hidden;
+            text-overflow: ellipsis; /* Adicionar elipses para texto muito longo */
         }
         .col-senha {
-            width: 200px;
+            width: 100px; /* Ajustar largura da coluna de senha para ser mais compacta */
         }
         .col-acoes {
-            width: 150px;
+            width: 200px; /* Ajustar largura para ações */
         }
         .btn {
             margin: 0 5px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .btn-warning:hover {
+            background-color: #e0a800;
+            transform: scale(1.05);
+        }
+        .btn-danger:hover {
+            background-color: #c82333;
+            transform: scale(1.05);
+        }
+        .btn-success:hover {
+            background-color: #218838;
+            transform: scale(1.05);
+        }
+        .btn-secondary {
+            margin-top: 20px;
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.5rem;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container mt-5">
-        <h1 class="mb-4">Lista de Usuários</h1>
+        <h1>Lista de Usuários</h1>
         <table class="table table-striped table-dark table-bordered">
             <thead>
                 <tr>
@@ -62,9 +111,8 @@
                     <td>{{ user.status }}</td>
                     <td>{{ user.data_criacao }}</td>
                     <td>{{ user.data_ultima_atualizacao }}</td>
-                    <td class="col-senha">{{ user.senha }}</td>
+                    <td class="col-senha" title="{{ user.senha }}">{{ user.senha[:10] }}...</td>
                     <td class="col-acoes">
-                        <!-- Botão de Editar -->
                         <a href="{{ url_for('edit_user', id=user.id) }}" class="btn btn-warning btn-sm">Editar</a>
                         {% if user.status == 'ativo' %}
                         <form action="{{ url_for('block_user', id=user.id) }}" method="POST" style="display:inline;">

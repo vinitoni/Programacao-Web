@@ -3,38 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tela de Login</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
+    <title>GerenciamenTONI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        body {
+            background-color: #f0f8ff; /* Cor de fundo clara */
+            color: #333; /* Texto escuro para contraste */
+        }
+        header {
+            background-color: #007bff; /* Azul do cabeçalho */
+            color: white;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3; /* Cor do botão ao passar o mouse */
+            border-color: #0056b3;
+        }
+        .card {
+            border: 1px solid #007bff; /* Borda azul das cartas */
+        }
+        .alert {
+            color: #ffffff; /* Texto da alerta escuro */
+        }
+    </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <h1 class="mb-4">Login</h1>
-        <form action="{{ url_for('login') }}" method="POST">
-            <div class="form-group">
-                <label for="login">Login (e-mail):</label>
-                <input type="email" class="form-control" id="login" name="login" required>
-            </div>
+    <header class="bg-primary text-white text-center py-5">
+        <h1>GerenciamenTONI</h1>
+        <p><strong>Seu gerenciador de usuários e autenticação</strong></p>
+    </header>
 
-            <div class="form-group">
-                <label for="senha">Senha:</label>
-                <input type="password" class="form-control" id="senha" name="senha" required>
-            </div>
+    <main class="container d-flex flex-column align-items-center justify-content-center min-vh-100">
+        <div class="text-center mb-4">
+            <h2>Bem-vindo ao GerenciamenTONI</h2>
+        </div>
 
-            <button type="submit" class="btn btn-primary">Entrar</button>
-        </form>
-
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div class="alert alert-warning mt-3" role="alert">
-                    <ul class="list-unstyled">
-                        {% for message in messages %}
-                            <li>{{ message }}</li>
-                        {% endfor %}
-                    </ul>
+        <div class="mb-5">
+            <h4>Login</h4>
+            <form action="{{ url_for('login') }}" method="POST" class="mb-4">
+                <div class="form-group">
+                    <label for="login">E-mail:</label>
+                    <input type="email" class="form-control" id="login" name="login" required>
                 </div>
-            {% endif %}
-        {% endwith %}
-    </div>
+                <div class="form-group">
+                    <label for="senha">Senha:</label>
+                    <input type="password" class="form-control" id="senha" name="senha" required>
+                </div>
+                <div class="text-center">
+                <button type="submit" class="btn btn-primary mt-4">Entrar</button>
+                </div>
+            </form>
+
+            <div class="text-center">
+                <p>ou <a href="{{ url_for('register') }}" class="text-primary font-weight-bold">registre-se aqui</a></p>
+            </div>
+        </div>
+
+        <div class="row text-center">
+            <div class="col-md-6">
+                <div class="card mb-4 shadow">
+                    <div class="card-body">
+                        <h5 class="card-title">Segurança</h5>
+                        <p class="card-text">As senhas são armazenadas de forma segura e encriptada.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card mb-4 shadow">
+                    <div class="card-body">
+                        <h5 class="card-title">Suporte</h5>
+                        <p class="card-text">Dúvidas? Entre em contato conosco para suporte.</p>
+                        <a href="#" class="btn btn-info">Contato</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert alert-info text-center mt-2">
+            <p><strong>Nosso sistema facilita o gerenciamento de usuários com segurança e eficiência. Experimente agora!</strong></p>
+        </div>
+    </main>
+
+    <footer class="text-center py-2">
+        <p>© 2024 GerenciamenTONI. Todos os direitos reservados.</p>
+    </footer>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

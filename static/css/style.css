@@ -1,0 +1,33 @@
+body {
+    background-color: #f8f9fa; /* Cor de fundo suave */
+}
+
+h1 {
+    font-size: 2.5rem; /* Tamanho da fonte do título */
+    color: #ffffff; /* Cor do título */
+}
+
+header {
+    background-image: linear-gradient(to right, #007bff, #0056b3); /* Gradiente para o cabeçalho */
+}
+
+.btn-group a {
+    margin: 0 10px; /* Espaçamento entre os botões */
+}
+
+.card {
+    border: none; /* Remove a borda padrão do cartão */
+    transition: transform 0.2s; /* Transição suave ao passar o mouse */
+}
+
+.card:hover {
+    transform: translateY(-5px); /* Leve movimento ao passar o mouse */
+}
+
+footer {
+    margin-top: 20px; /* Reduzir a margem superior do rodapé */
+    padding: 20px;
+    background-color: #0056b3; /* Cor do rodapé */
+    color: white; /* Cor do texto do rodapé */
+    text-align: center; /* Centraliza o texto no rodapé */
+}

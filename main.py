@@ -33,7 +33,7 @@ def initialize_database():
 def create_user():
     data = request.json
     login = data.get('login')
-    senha = generate_password_hash(data.get('senha'))  # Encriptação da senha
+    senha = generate_password_hash(data.get('senha'))
     nome = data.get('nome')
 
     if '@' not in login:
@@ -75,22 +75,29 @@ def update_user(id):
 @app.route('/usuarios/<int:id>/bloquear', methods=['POST'])
 def block_user(id):
     db = get_db()
-    db.execute('UPDATE usuarios SET status = ? WHERE id = ?', ('bloqueado', id))
-    db.commit()
-
-    user = db.execute('SELECT * FROM usuarios WHERE id = ?', (id,)).fetchone()
-
-    return render_template('bloquear_usuario.html', user=user)
+    try:
+        db.execute('UPDATE usuarios SET status = ? WHERE id = ?', ('bloqueado', id))
+        db.commit()
+    finally:
+        db.close()
+    
+    return redirect(url_for('get_users'))
 
 @app.route('/usuarios/<int:id>/ativar', methods=['POST'])
 def activate_user(id):
     db = get_db()
-    db.execute('UPDATE usuarios SET status = ? WHERE id = ?', ('ativo', id))
-    db.commit()
+    try:
+        db.execute('UPDATE usuarios SET status = ? WHERE id = ?', ('ativo', id))
+        db.commit()
+        
+        flash(f'Usuário {id} ativado com sucesso!')
+    except Exception as e:
+        flash('Erro ao ativar o usuário. Tente novamente.')
+    finally:
+        db.close()
+    
+    return redirect(url_for('get_users'))
 
-    user = db.execute('SELECT * FROM usuarios WHERE id = ?', (id,)).fetchone()
-
-    return render_template('ativar_usuario.html', user=user)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -113,18 +120,20 @@ def login():
             db.commit()
 
             flash('Login bem-sucedido!')
-            return redirect(url_for('home'))
+            return redirect(url_for('home'))  # Redirecionar para a rota home
         else:
             flash('Login ou senha incorretos!')
             return redirect(url_for('login'))
+
     return render_template('login.html')
 
-
+@app.route('/home')
+def home():
+    return render_template('home.html')  # Renderiza a tela home.html após o login
 
 @app.route('/')
-def home():
-    return render_template('home.html')
-
+def login1():
+    return render_template('login.html')
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -134,24 +143,21 @@ def register():
         senha = request.form['senha']
         nome = request.form['nome']
 
-        # Verificar se o login é um e-mail válido
         if '@' not in login:
             flash('O login deve ser um e-mail válido')
             return redirect(url_for('register'))
 
-        # Encriptar a senha usando hash seguro (
         senha_encriptada = generate_password_hash(senha)
 
         db = get_db()
         try:
-            # Inserir o usuário no banco de dados
             db.execute(
                 'INSERT INTO usuarios (login, senha, nome, data_criacao, status) VALUES (?, ?, ?, ?, ?)',
                 (login, senha_encriptada, nome, datetime.now(), 'ativo')
             )
             db.commit()
             flash('Usuário registrado com sucesso!')
-            return redirect(url_for('login'))  # Redirecionar para a tela de login
+            return redirect(url_for('home'))
         except sqlite3.IntegrityError:
             flash('Este e-mail já está registrado!')
             return redirect(url_for('register'))

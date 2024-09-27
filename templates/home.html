@@ -3,19 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bem-vindo</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
+    <title>GerenciamenTONI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <div class="container mt-5">
-        <h1 class="mb-4">Bem-vindo ao Sistema de Gestão de Usuários</h1>
-        <p class="lead">Use o menu abaixo para navegar:</p>
-        <div class="btn-group" role="group" aria-label="Basic example">
-            <a href="{{ url_for('login') }}" class="btn btn-primary">Login</a>
-            <a href="{{ url_for('register') }}" class="btn btn-success">Registrar Usuário</a>
-            <a href="{{ url_for('get_users') }}" class="btn btn-info">Lista de Usuários</a>
+    <header class="bg-primary text-white text-center py-5">
+        <h1>GerenciamenTONI</h1>
+        <p><strong>Seu gerenciador de usuários e autenticação</strong></p>
+    </header>
+
+    <main class="container d-flex flex-column align-items-center justify-content-center min-vh-100">
+        <div class="text-center mb-4">
+            <h2>Bem-vindo ao GerenciamenTONI</h2>
+            <p class="lead">Navegue pelas opções abaixo:</p>
         </div>
-    </div>
+
+        <div class="btn-group mb-5" role="group" aria-label="Basic example">
+            <a href="{{ url_for('get_users') }}" class="btn btn-secondary btn-lg">Lista de Usuários</a>
+            <a href="{{ url_for('login') }}" class="btn btn-dark btn-lg">Sair do Sistema</a>    
+        </div>
+        
+
+        <div class="row text-center">
+            <div class="col-md-6">
+                <div class="card mb-4 shadow">
+                    <div class="card-body">
+                        <h5 class="card-title">Segurança</h5>
+                        <p class="card-text">As senhas são armazenadas de forma segura e encriptada.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card mb-4 shadow">
+                    <div class="card-body">
+                        <h5 class="card-title">Suporte</h5>
+                        <p class="card-text">Dúvidas? Entre em contato conosco para suporte.</p>
+                        <a href="#" class="btn btn-info">Contato</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert alert-info text-center mt-2">
+            <p><strong>Nosso sistema facilita o gerenciamento de usuários com segurança e eficiência. Experimente agora!</strong></p>
+        </div>
+    </main>
+
+    <footer class="text-center py-2">
+        <p>© 2024 GerenciamenTONI. Todos os direitos reservados.</p>
+    </footer>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

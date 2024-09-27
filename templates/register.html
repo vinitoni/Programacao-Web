@@ -5,28 +5,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrar Usuário</title>
     <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}">
+    <style>
+        body {
+            background-color: #f0f8ff; /* Cor de fundo clara */
+            color: #333; /* Texto escuro para contraste */
+        }
+        header {
+            background-color: #007bff; /* Azul do cabeçalho */
+            color: white;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3; /* Cor do botão ao passar o mouse */
+            border-color: #0056b3;
+        }
+        .alert {
+            background-color: #d1ecf1; /* Fundo da alerta azul claro */
+            color: #0c5460; /* Texto da alerta escuro */
+        }
+    </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <h1 class="mb-4">Registrar Usuário</h1>
-        <form action="{{ url_for('register') }}" method="POST">
+    <header class="bg-primary text-white text-center py-5">
+        <h1>GerenciamenTONI</h1>
+        <p><strong>Seu gerenciador de usuários e autenticação</strong></p>
+    </header>
+
+    <main class="container d-flex flex-column align-items-center justify-content-center min-vh-100">
+        <div class="text-center mb-4">
+            <h2>Registrar Usuário</h2>
+            <p class="lead">Preencha as informações abaixo:</p>
+        </div>
+
+        <form action="{{ url_for('register') }}" method="POST" class="mb-4">
             <div class="form-group">
-                <label for="login">Login (e-mail):</label>
+                <label for="login">E-mail:</label>
                 <input type="email" class="form-control" id="login" name="login" required>
             </div>
-
             <div class="form-group">
                 <label for="senha">Senha:</label>
                 <input type="password" class="form-control" id="senha" name="senha" required>
             </div>
-
             <div class="form-group">
                 <label for="nome">Nome Completo:</label>
                 <input type="text" class="form-control" id="nome" name="nome" required>
             </div>
-
-            <button type="submit" class="btn btn-primary">Registrar</button>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary mt-2">Registrar</button>
+            </div>
         </form>
+
+        <div class="text-center">
+            <p>Já tem uma conta? <a href="{{ url_for('login') }}" class="text-primary font-weight-bold">Faça login aqui</a></p>
+        </div>
 
         {% with messages = get_flashed_messages() %}
             {% if messages %}
@@ -39,7 +74,11 @@
                 </div>
             {% endif %}
         {% endwith %}
-    </div>
+    </main>
+
+    <footer class="text-center py-2">
+        <p>© 2024 GerenciamenTONI. Todos os direitos reservados.</p>
+    </footer>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
