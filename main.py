@@ -159,5 +159,32 @@ def register():
             db.close()
     return render_template('register.html')
 
+@app.route('/usuarios/<int:id>/editar', methods=['GET'])
+def edit_user_form(id):
+    db = get_db()
+    user = db.execute('SELECT * FROM usuarios WHERE id = ?', (id,)).fetchone()
+
+    if not user:
+        flash('Usuário não encontrado!')
+        return redirect(url_for('get_users'))
+
+    return render_template('editar_usuario.html', user=user)
+
+@app.route('/usuarios/<int:id>/editar', methods=['POST'])
+def edit_user(id):
+    nome = request.form['nome']
+    status = request.form['status']
+
+    db = get_db()
+    db.execute(
+        'UPDATE usuarios SET nome = ?, status = ?, data_ultima_atualizacao = ? WHERE id = ?',
+        (nome, status, datetime.now(), id)
+    )
+    db.commit()
+
+    flash('Usuário atualizado com sucesso!')
+    return redirect(url_for('get_users'))
+
+
 if __name__ == '__main__':
     app.run(debug=True)

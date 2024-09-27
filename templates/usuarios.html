@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Usuários</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <style>
         body {
             background-color: #2C2F33;
@@ -30,7 +30,7 @@
             width: 200px;
         }
         .col-acoes {
-            width: 100px;
+            width: 150px;
         }
         .btn {
             margin: 0 5px;
@@ -64,6 +64,8 @@
                     <td>{{ user.data_ultima_atualizacao }}</td>
                     <td class="col-senha">{{ user.senha }}</td>
                     <td class="col-acoes">
+                        <!-- Botão de Editar -->
+                        <a href="{{ url_for('edit_user', id=user.id) }}" class="btn btn-warning btn-sm">Editar</a>
                         {% if user.status == 'ativo' %}
                         <form action="{{ url_for('block_user', id=user.id) }}" method="POST" style="display:inline;">
                             <button type="submit" class="btn btn-danger btn-sm">Bloquear</button>
